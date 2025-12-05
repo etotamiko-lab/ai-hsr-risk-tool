@@ -431,6 +431,7 @@ For commercial licensing inquiries: tamiko@techinhsr.com
                 <button class="nav-btn" onclick="showSection('framework')">3-Phase Framework</button>
                 <button class="nav-btn" onclick="showSection('domains')">Risk Domains</button>
                 <button class="nav-btn" onclick="showSection('tool')">Interactive Tool</button>
+                <button class="nav-btn" onclick="showSection('prompts')">Reviewer Prompts</button>
                 <button class="nav-btn" onclick="showSection('definitions')">Definitions</button>
                 <button class="nav-btn" onclick="showSection('about')">About</button>
             </div>
@@ -627,6 +628,46 @@ For commercial licensing inquiries: tamiko@techinhsr.com
                 </div>
 
                 <div id="risksContainer"></div>
+            </div>
+        </section>
+
+        <!-- Reviewer Prompts Section -->
+        <section id="prompts" class="section">
+            <div class="card">
+                <h2>📋 Reviewer Prompts for IRBs</h2>
+                <p><strong>Purpose:</strong> Use these prompts to communicate with research teams about specific risks identified in their AI protocols. Select the development phase and risk domain to see relevant prompts.</p>
+
+                <div class="info-box">
+                    <strong>How to Use:</strong> Filter by phase and domain, then copy the relevant prompt(s) to include in your IRB correspondence, stipulation letters, or review notes.
+                </div>
+
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="promptPhaseFilter">Development Phase</label>
+                        <select id="promptPhaseFilter" onchange="filterPrompts()">
+                            <option value="all">All Phases</option>
+                            <option value="phase1">Phase 1: Discover/Ideation</option>
+                            <option value="phase2">Phase 2: Pilot/Validation</option>
+                            <option value="phase3">Phase 3: Clinical Investigation</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="promptDomainFilter">Risk Domain</label>
+                        <select id="promptDomainFilter" onchange="filterPrompts()">
+                            <option value="all">All Domains</option>
+                            <option value="discrimination">Discrimination & Toxicity</option>
+                            <option value="privacy">Privacy & Security</option>
+                            <option value="misinformation">Misinformation</option>
+                            <option value="malicious">Malicious Actors & Misuse</option>
+                            <option value="hci">Human-Computer Interaction</option>
+                            <option value="socioeconomic">Socioeconomic & Environmental</option>
+                            <option value="system-safety">AI System Safety & Limitations</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="promptsContainer"></div>
             </div>
         </section>
 
@@ -1162,8 +1203,272 @@ For commercial licensing inquiries: tamiko@techinhsr.com
         }
 
         // Initialize with all risks displayed
+
+        // =================================================================
+        // REVIEWER PROMPTS DATA
+        // =================================================================
+        const reviewerPromptsData = [
+            {
+                id: "discrimination-bias",
+                title: "Unfair Discrimination and Misrepresentation (Biased Results)",
+                domain: "discrimination",
+                phase1: "Please report the demographics of your training dataset and note any known gaps or limitations.",
+                phase2: "Your training data may be biased. Please add your plan for checking and reducing bias so that no group is unfairly treated.",
+                phase3: "Please explain how you will check that AI does not unfairly harm or exclude marginalized groups."
+            },
+            {
+                id: "discrimination-toxic",
+                title: "Exposure to Toxic Content",
+                domain: "discrimination",
+                phase2: "Please describe what safeguards are in place to ensure participants will not be exposed to harmful, offensive, or distressing AI-generated content during the study.",
+                phase3: "If participants are accidentally exposed to inappropriate or toxic material, what immediate protections (e.g., withdrawal, reporting, counseling referral) will be provided?"
+            },
+            {
+                id: "discrimination-equity",
+                title: "Unequal Performance Across Groups (Inequity)",
+                domain: "discrimination",
+                phase2: "Please describe how you will test your model on new and diverse datasets beyond those used in training.",
+                phase3: "Please describe your strategy for bias evaluation and fairness testing across demographic subgroups."
+            },
+            {
+                id: "privacy-breach",
+                title: "Compromise of Privacy (Data Leakage or Re-identification)",
+                domain: "privacy",
+                phase1: "Please describe your process of de-identification to reduce re-identification risk.",
+                phase2: "Please describe your approach to ensure secondary data use complies with privacy standards.",
+                phase3: "How will you monitor for potential privacy breaches or unauthorized data access during deployment?"
+            },
+            {
+                id: "privacy-security",
+                title: "AI System Security Vulnerabilities and Attacks",
+                domain: "privacy",
+                phase1: "Please outline how the dataset will be secured to prevent unauthorized access or breaches.",
+                phase2: "Please explain how study data and AI system access will be protected against unauthorized use.",
+                phase3: "What incident response plan is in place if a security breach or attack occurs?"
+            },
+            {
+                id: "misinformation-false",
+                title: "False or Misleading Information",
+                domain: "misinformation",
+                phase1: "Please explain how your project ensures real-world relevance (that correlations are linked to meaningful clinical associations, not just statistical patterns).",
+                phase2: "How will you verify the accuracy of AI-generated outputs before they influence decisions?",
+                phase3: "What safeguards prevent clinicians or participants from acting on incorrect AI outputs?"
+            },
+            {
+                id: "misinformation-ecosystem",
+                title: "Pollution of Information Ecosystem",
+                domain: "misinformation",
+                phase1: "Please describe your plan for documenting early limitations of the model and how those will be addressed before moving to validation.",
+                phase2: "Please add a plan for testing model outputs against established clinical or scientific standards.",
+                phase3: "How will you prevent the spread of AI-generated misinformation if deployed?"
+            },
+            {
+                id: "malicious-manipulation",
+                title: "Disinformation, Surveillance, and Influence at Scale",
+                domain: "malicious",
+                phase2: "How will you ensure the AI does not mislead participants or present biased/misinformation that could influence their decisions?",
+                phase3: "Please describe how you will monitor for potential misuse or manipulation of participants."
+            },
+            {
+                id: "malicious-harm",
+                title: "Cyberattacks, Weapon Development, or Mass Harm",
+                domain: "malicious",
+                phase2: "Please clarify what safeguards are in place to prevent the AI system from being misused in ways that could cause large-scale harm.",
+                phase3: "What controls prevent unauthorized actors from accessing or weaponizing the AI system?"
+            },
+            {
+                id: "malicious-fraud",
+                title: "Fraud, Scams, and Targeted Manipulation",
+                domain: "malicious",
+                phase2: "Please confirm what measures will be used to prevent the AI system from generating deceptive or manipulative outputs.",
+                phase3: "How will you detect and respond to attempts to use the AI for fraudulent purposes?"
+            },
+            {
+                id: "hci-overreliance",
+                title: "Overreliance and Unsafe Use",
+                domain: "hci",
+                phase2: "Please describe how you will compare your AI\'s performance against existing practice (e.g., standard-of-care approaches).",
+                phase3: "What training will clinicians receive to prevent over-reliance on AI recommendations?"
+            },
+            {
+                id: "hci-autonomy",
+                title: "Loss of Human Agency and Autonomy",
+                domain: "hci",
+                phase2: "Please describe the authorization and consent process by which you will gain access to the data.",
+                phase3: "How do participants retain control over whether AI is used in their care or research participation?"
+            },
+            {
+                id: "socioeconomic-power",
+                title: "Power Centralization and Unfair Distribution of Benefits",
+                domain: "socioeconomic",
+                phase2: "Please explain how you will ensure that benefits of this AI system are shared fairly across participant groups.",
+                phase3: "How will you monitor whether certain groups are systematically excluded from AI benefits?"
+            },
+            {
+                id: "socioeconomic-inequality",
+                title: "Increased Inequality and Decline in Employment Quality",
+                domain: "socioeconomic",
+                phase2: "Please describe how your project accounts for the risk that the AI may replace or reduce the role of teachers, clinicians, or staff.",
+                phase3: "What safeguards protect against job displacement or reduced quality of human roles?"
+            },
+            {
+                id: "socioeconomic-devaluation",
+                title: "Economic and Cultural Devaluation of Human Effort",
+                domain: "socioeconomic",
+                phase2: "How will you address concerns that the AI system devalues human contributions (e.g., replacing teachers\' feedback or clinicians\' judgment)?",
+                phase3: "What measures ensure human expertise remains valued alongside AI capabilities?"
+            },
+            {
+                id: "socioeconomic-governance",
+                title: "Governance Failure",
+                domain: "socioeconomic",
+                phase2: "Please describe how your study aligns with FDA or other regulatory expectations for validation.",
+                phase3: "Please provide your governance structure for ongoing oversight and compliance monitoring."
+            },
+            {
+                id: "system-misalignment",
+                title: "AI Pursuing Its Own Goals (Misalignment)",
+                domain: "system-safety",
+                phase2: "What controls are in place to ensure the AI system does not produce outputs that contradict the study\'s stated goals?",
+                phase3: "How will you monitor for AI behaviors that conflict with participants\' best interests?"
+            },
+            {
+                id: "system-dangerous",
+                title: "AI Possessing Dangerous Capabilities",
+                domain: "system-safety",
+                phase2: "Please describe what limits are in place to prevent the AI from being used for harmful purposes.",
+                phase3: "What safeguards prevent the AI from developing or accessing dangerous capabilities?"
+            },
+            {
+                id: "system-robustness",
+                title: "Lack of Capability or Robustness (Unreliable System)",
+                domain: "system-safety",
+                phase2: "Please outline the performance metrics (e.g., sensitivity, specificity, accuracy) you will use to evaluate safety and effectiveness.",
+                phase3: "Please outline your plan for monitoring system reliability and handling failures in real-world use."
+            },
+            {
+                id: "system-transparency",
+                title: "Lack of Transparency or Interpretability",
+                domain: "system-safety",
+                phase2: "Please describe how end-users (e.g., clinicians) will provide structured feedback on the AI\'s usefulness, clarity, and transparency.",
+                phase3: "How will you ensure participants understand how AI is being used and how decisions are made?"
+            },
+            {
+                id: "system-multiagent",
+                title: "Multi-Agent Risks",
+                domain: "system-safety",
+                phase2: "You noted more than one AI system interacting in this project. Please describe how you will monitor their interactions to prevent harmful outcomes.",
+                phase3: "What safeguards prevent cascading failures when multiple AI systems interact?"
+            }
+        ];
+
+
+        // =================================================================
+        // REVIEWER PROMPTS FUNCTIONS
+        // =================================================================
+        
+        function filterPrompts() {
+            const phase = document.getElementById('promptPhaseFilter').value;
+            const domain = document.getElementById('promptDomainFilter').value;
+
+            const filtered = reviewerPromptsData.filter(prompt => {
+                const domainMatch = domain === 'all' || prompt.domain === domain;
+                let phaseMatch = phase === 'all';
+                
+                if (phase !== 'all') {
+                    phaseMatch = prompt[phase] !== undefined && prompt[phase] !== null;
+                }
+                
+                return domainMatch && phaseMatch;
+            });
+
+            displayPrompts(filtered, phase);
+        }
+
+        function displayPrompts(prompts, selectedPhase) {
+            const container = document.getElementById('promptsContainer');
+            
+            if (prompts.length === 0) {
+                container.innerHTML = '<div class="no-results"><h3>No prompts match your filters</h3><p>Try adjusting your selection criteria</p></div>';
+                return;
+            }
+
+            const domainNames = {
+                discrimination: 'Discrimination & Toxicity',
+                privacy: 'Privacy & Security',
+                misinformation: 'Misinformation',
+                malicious: 'Malicious Actors & Misuse',
+                hci: 'Human-Computer Interaction',
+                socioeconomic: 'Socioeconomic & Environmental',
+                'system-safety': 'AI System Safety, Failure, and Limitations'
+            };
+
+            const phaseNames = {
+                phase1: 'Phase 1: Discover/Ideation',
+                phase2: 'Phase 2: Pilot/Validation',
+                phase3: 'Phase 3: Clinical Investigation/Deployment'
+            };
+
+            let html = '';
+            let currentDomain = null;
+
+            prompts.forEach(prompt => {
+                if (prompt.domain !== currentDomain) {
+                    if (currentDomain !== null) {
+                        html += '<div style="margin-top: 2rem;"></div>';
+                    }
+                    html += '<h3 style="color: var(--primary); margin-top: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary);">' + domainNames[prompt.domain] + '</h3>';
+                    currentDomain = prompt.domain;
+                }
+
+                html += '<div class="risk-card" style="margin-top: 1.5rem;"><div class="risk-title">📋 ' + prompt.title + '</div>';
+
+                const phases = ['phase1', 'phase2', 'phase3'];
+                let hasPrompts = false;
+
+                phases.forEach(phase => {
+                    if (prompt[phase]) {
+                        if (selectedPhase === 'all' || selectedPhase === phase) {
+                            hasPrompts = true;
+                            html += '<div class="reviewer-section" style="margin-top: 1rem;"><div class="section-title" style="display: flex; justify-content: space-between; align-items: center;"><span><strong>' + phaseNames[phase] + '</strong></span>';
+                            html += '<button onclick="copyPrompt(\'' + prompt.id + '-' + phase + '\')" style="background: var(--accent); color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 4px; cursor: pointer; font-size: 0.75rem;">Copy</button></div>';
+                            html += '<p id="' + prompt.id + '-' + phase + '" style="margin-top: 0.5rem; color: var(--text); line-height: 1.6;">' + prompt[phase] + '</p></div>';
+                        }
+                    }
+                });
+
+                if (!hasPrompts) {
+                    html += '<p style="color: var(--text-light); font-style: italic; margin-top: 0.5rem;">No prompts available for selected phase.</p>';
+                }
+
+                html += '</div>';
+            });
+
+            container.innerHTML = html;
+        }
+
+        function copyPrompt(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✓ Copied!';
+                button.style.background = '#27ae60';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = 'var(--accent)';
+                }, 2000);
+            }).catch(err => {
+                alert('Failed to copy. Please select and copy manually.');
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             displayRisks(risks);
+            displayPrompts(reviewerPromptsData, 'all'); // Initialize prompts display
         });
     </script>
 </body>
