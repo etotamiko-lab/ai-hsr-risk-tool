@@ -23,7 +23,7 @@ This tool assists Institutional Review Boards (IRBs) and Ethics Committees in id
 ## 🚀 Quick Start
 
 ### Option 1: Use Online (Recommended)
-Visit the live tool: **[https://etotamiko.github.io/ai-hsr-risk-tool/]
+Visit the live tool: **[https://etotamiko-lab.github.io/ai-hsr-risk-tool/]
 
 ### Option 2: Download and Use Locally
 1. Download `index.html` from this repository
@@ -149,7 +149,7 @@ If you use this tool in your work, please cite:
            AI in Human Subjects Research},
   year = {2025},
   publisher = {TechInHSR},
-  url = {https://github.com/etotamiko/ai-hsr-risk-tool},
+  url = {https://github.com/etotamiko-lab/ai-hsr-risk-tool},
   note = {Licensed under AGPL-3.0 and CC BY-NC-SA 4.0}
 }
 ```
@@ -239,8 +239,8 @@ We welcome contributions from the IRB and AI ethics community!
 
 ### Get Help:
 - 📧 Email: techinhsr.com
-- 🐛 Report Issues: [GitHub Issues](https://github.com/etotamiko/ai-hsr-risk-tool/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/etotamiko/ai-hsr-risk-tool/discussions)
+- 🐛 Report Issues: [GitHub Issues](https://github.com/etotamiko-lab/ai-hsr-risk-tool/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/etotamiko-lab/ai-hsr-risk-tool/discussions)
 
 ---
 
