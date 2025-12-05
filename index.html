@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<!--
+AI HSR Risk Reference Tool v2.0
+Copyright (C) 2025 Tamiko Eto, TechInHSR
+
+This work is dual-licensed:
+- Code (HTML/CSS/JavaScript): GNU Affero General Public License v3.0 (AGPL-3.0)
+- Content & Documentation: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 (CC BY-NC-SA 4.0)
+
+You are free to use, share, and modify this tool for NON-COMMERCIAL purposes only.
+See LICENSE.md for complete terms.
+
+For commercial licensing inquiries: tamiko@techinhsr.com
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI HSR Risk Reference Tool v2.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a5490;
+            --primary-dark: #0f3d6b;
+            --accent: #e67e22;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+            --border: #dee2e6;
+            --shadow: rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 2rem 1rem;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .version {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .author {
+            text-align: right;
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .nav {
+            background: var(--white);
+            border-bottom: 2px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .nav-content {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.75rem 0;
+            overflow-x: auto;
+        }
+
+        .nav-btn {
+            background: var(--white);
+            border: 2px solid var(--border);
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--primary);
+            background: rgba(26, 84, 144, 0.05);
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .main {
+            padding: 2rem 0;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .card h3 {
+            color: var(--text);
+            margin: 1.5rem 0 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        select {
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        select:hover, select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .risk-card {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+        }
+
+        .risk-card:hover {
+            box-shadow: 0 4px 12px var(--shadow);
+            transform: translateY(-2px);
+        }
+
+        .risk-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .risk-meta {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-phase1 { background: #e3f2fd; color: #1976d2; }
+        .badge-phase2 { background: #fff3e0; color: #f57c00; }
+        .badge-phase3 { background: #fce4ec; color: #c2185b; }
+        .badge-domain { background: #f3e5f5; color: #7b1fa2; }
+
+        .risk-description {
+            color: var(--text);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .mitigation-section, .reviewer-section {
+            background: var(--bg);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .section-title {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .mitigation-section { border-left: 3px solid var(--success); }
+        .reviewer-section { border-left: 3px solid var(--accent); }
+
+        ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .info-box {
+            background: #e8f4f8;
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .phase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .phase-card {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .phase-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .phase-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .domain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .domain-card {
+            background: linear-gradient(135deg, var(--white) 0%, var(--bg) 100%);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .domain-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .domain-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .footer {
+            background: var(--text);
+            color: var(--white);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        code {
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--bg);
+            padding: 0.125rem 0.375rem;
+            border-radius: 3px;
+            font-size: 0.875em;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.5rem; }
+            .header-content { flex-direction: column; align-items: flex-start; }
+            .author { text-align: left; }
+            .filters { grid-template-columns: 1fr; }
+            .phase-grid, .domain-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div>
+                    <h1>AI HSR Risk Reference Tool<span class="version">v2.0</span></h1>
+                    <p class="subtitle">Quick Reference Risk Identification and Mitigation Guide for IRBs Reviewing AI in Human Subjects Research</p>
+                </div>
+                <div class="author">
+                    <strong>Tamiko Eto, MA CIP</strong><br>
+                    Founder: TechInHSR
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-content">
+                <button class="nav-btn active" onclick="showSection('overview')">Overview</button>
+                <button class="nav-btn" onclick="showSection('framework')">3-Phase Framework</button>
+                <button class="nav-btn" onclick="showSection('domains')">Risk Domains</button>
+                <button class="nav-btn" onclick="showSection('tool')">Interactive Tool</button>
+                <button class="nav-btn" onclick="showSection('definitions')">Definitions</button>
+                <button class="nav-btn" onclick="showSection('about')">About</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main container">
+        <!-- Overview Section -->
+        <section id="overview" class="section active">
+            <div class="card">
+                <h2>Welcome to the AI HSR Risk Reference Tool</h2>
+                <p>This tool assists Institutional Review Boards (IRBs) and Ethics Committees in identifying and addressing AI-specific risks in human subjects research. It complements standard IRB review processes by providing structured guidance on risks unique to artificial intelligence and machine learning systems.</p>
+                
+                <div class="warning-box">
+                    <strong>Important:</strong> This tool focuses on AI-specific risks and does not replace comprehensive IRB review. General research risks (privacy, physical/psychological harm, deception) should be addressed through standard IRB processes.
+                </div>
+
+                <h3>Key Features</h3>
+                <ul>
+                    <li><strong>Structured Framework:</strong> Organized around the 3-Phase AI HSR IRB Review Framework</li>
+                    <li><strong>Evidence-Based:</strong> Built on MIT AI Risk Repository, ISO 14971, and U.S. regulatory frameworks</li>
+                    <li><strong>Practical Guidance:</strong> Includes reviewer prompts and mitigation strategies</li>
+                    <li><strong>Validated:</strong> Tested at 23+ institutions with 21% improvement in reviewer confidence</li>
+                </ul>
+
+                <h3>Four Core AI-Specific Risks</h3>
+                <div class="domain-grid">
+                    <div class="domain-card">
+                        <div class="domain-icon">⚖️</div>
+                        <h4>Misclassification</h4>
+                        <p>Incorrect categorization of participants, diagnoses, or outcomes that can lead to inappropriate interventions.</p>
+                    </div>
+                    <div class="domain-card">
+                        <div class="domain-icon">🔍</div>
+                        <h4>Explainability</h4>
+                        <p>Opacity of AI models where neither researchers nor participants fully understand how predictions are made.</p>
+                    </div>
+                    <div class="domain-card">
+                        <div class="domain-icon">👥</div>
+                        <h4>Participant Vulnerability & Equity</h4>
+                        <p>Uneven AI performance across demographic groups that may exacerbate health disparities.</p>
+                    </div>
+                    <div class="domain-card">
+                        <div class="domain-icon">🔒</div>
+                        <h4>Data Sensitivity & Privacy</h4>
+                        <p>Concerns about confidentiality, secondary use, reidentifiability, and HIPAA compliance with large datasets.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Framework Section -->
+        <section id="framework" class="section">
+            <div class="card">
+                <h2>3-Phase AI HSR IRB Review Framework</h2>
+                <p>The framework aligns AI research oversight with project maturity to avoid over- and under-regulation:</p>
+
+                <div class="phase-grid">
+                    <div class="phase-card">
+                        <div class="phase-number">1</div>
+                        <h3>Discover/Ideation</h3>
+                        <p><strong>Focus:</strong> Early exploratory work</p>
+                        <p><strong>Activities:</strong> Data collection, preliminary analysis, proof of concept</p>
+                        <p><strong>Risk Level:</strong> Lower - limited participant interaction</p>
+                        <div class="info-box">
+                            <strong>Key Considerations:</strong>
+                            <ul>
+                                <li>Data quality and representativeness</li>
+                                <li>Initial bias assessment</li>
+                                <li>Privacy protections for training data</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="phase-card">
+                        <div class="phase-number">2</div>
+                        <h3>Pilot/Validation</h3>
+                        <p><strong>Focus:</strong> Model performance testing</p>
+                        <p><strong>Activities:</strong> Validation studies, algorithm testing, performance metrics</p>
+                        <p><strong>Risk Level:</strong> Medium - controlled testing environment</p>
+                        <div class="info-box">
+                            <strong>Key Considerations:</strong>
+                            <ul>
+                                <li>Model explainability requirements</li>
+                                <li>Performance across subgroups</li>
+                                <li>Error handling and safety mechanisms</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="phase-card">
+                        <div class="phase-number">3</div>
+                        <h3>Clinical Investigation / Real-World Deployment</h3>
+                        <p><strong>Focus:</strong> Real-world use and impact</p>
+                        <p><strong>Activities:</strong> Clinical trials, deployment studies, post-market surveillance</p>
+                        <p><strong>Risk Level:</strong> Higher - direct impact on care decisions</p>
+                        <div class="info-box">
+                            <strong>Key Considerations:</strong>
+                            <ul>
+                                <li>Clinical decision-making integration</li>
+                                <li>Monitoring and adverse event reporting</li>
+                                <li>Long-term equity impacts</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Risk Domains Section -->
+        <section id="domains" class="section">
+            <div class="card">
+                <h2>MIT AI Risk Domains</h2>
+                <p>This tool focuses on four of MIT's seven major AI risk domains most relevant to human subjects research:</p>
+
+                <h3>1. Discrimination and Toxicity</h3>
+                <p>Concerns about biased or harmful outputs where AI systems may perpetuate unfair treatment or expose participants to inappropriate content.</p>
+                <ul>
+                    <li>Algorithmic bias across demographic groups</li>
+                    <li>Discriminatory predictions or recommendations</li>
+                    <li>Toxic or offensive outputs in generative systems</li>
+                    <li>Perpetuation of stereotypes</li>
+                </ul>
+
+                <h3>2. Privacy and Security</h3>
+                <p>Protecting sensitive research data and ensuring systems are resilient to breaches, leaks, and unauthorized use.</p>
+                <ul>
+                    <li>Data confidentiality and de-identification</li>
+                    <li>Risk of re-identification</li>
+                    <li>Unauthorized access or data breaches</li>
+                    <li>HIPAA and Privacy Rule compliance</li>
+                    <li>Model inversion attacks</li>
+                </ul>
+
+                <h3>3. Misinformation</h3>
+                <p>Risk of false outputs or hallucinations that can mislead researchers and participants if left unchecked.</p>
+                <ul>
+                    <li>AI hallucinations (fabricated information)</li>
+                    <li>Incorrect clinical recommendations</li>
+                    <li>Misleading data summaries</li>
+                    <li>Confidence in incorrect predictions</li>
+                </ul>
+
+                <h3>4. Human-Computer Interaction</h3>
+                <p>Preserving human judgment in research and clinical application, ensuring that humans remain the ultimate decision-makers.</p>
+                <ul>
+                    <li>Over-reliance on AI recommendations</li>
+                    <li>Automation bias in clinical decisions</li>
+                    <li>Informed consent challenges</li>
+                    <li>User interface design and clarity</li>
+                    <li>Appropriate human oversight mechanisms</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Interactive Tool Section -->
+        <section id="tool" class="section">
+            <div class="card">
+                <h2>Interactive Risk Assessment</h2>
+                <p>Select filters below to view relevant risks, mitigation strategies, and reviewer prompts:</p>
+
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="phaseFilter">Development Phase</label>
+                        <select id="phaseFilter" onchange="filterRisks()">
+                            <option value="all">All Phases</option>
+                            <option value="phase1">Phase 1: Discover/Ideation</option>
+                            <option value="phase2">Phase 2: Pilot/Validation</option>
+                            <option value="phase3">Phase 3: Clinical Investigation</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="domainFilter">Risk Domain</label>
+                        <select id="domainFilter" onchange="filterRisks()">
+                            <option value="all">All Domains</option>
+                            <option value="discrimination">Discrimination & Toxicity</option>
+                            <option value="privacy">Privacy & Security</option>
+                            <option value="misinformation">Misinformation</option>
+                            <option value="hci">Human-Computer Interaction</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="riskFilter">Specific Risk</label>
+                        <select id="riskFilter" onchange="filterRisks()">
+                            <option value="all">All Risks</option>
+                            <option value="misclassification">Misclassification</option>
+                            <option value="explainability">Explainability</option>
+                            <option value="equity">Participant Vulnerability & Equity</option>
+                            <option value="data-privacy">Data Sensitivity & Privacy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="risksContainer"></div>
+            </div>
+        </section>
+
+        <!-- Definitions Section -->
+        <section id="definitions" class="section">
+            <div class="card">
+                <h2>Key Definitions</h2>
+
+                <h3>AI Human Subjects Research (AI HSR)</h3>
+                <p>Research involving human subjects, conducted to develop AI tools. This includes systematic investigation aimed at developing generalizable knowledge about AI systems, whether assessing their performance, safety, or effectiveness.</p>
+
+                <h3>Common AI Model Types</h3>
+                <ul>
+                    <li><strong>Predictive Models:</strong> Systems that forecast outcomes based on historical data (e.g., risk calculators, diagnostic algorithms)</li>
+                    <li><strong>Large Language Models (LLMs):</strong> AI systems trained on vast text data to understand and generate human language</li>
+                    <li><strong>Foundation Models:</strong> Large-scale models trained on broad data that can be adapted for multiple tasks</li>
+                    <li><strong>Generative AI:</strong> Systems that create new content (text, images, code) based on learned patterns</li>
+                    <li><strong>Classification Models:</strong> Algorithms that categorize data into predefined groups</li>
+                    <li><strong>Computer Vision:</strong> AI systems that interpret and analyze visual information</li>
+                </ul>
+
+                <h3>Key Regulatory Frameworks</h3>
+                <ul>
+                    <li><strong>45 CFR 46 (Common Rule):</strong> Federal policy for protection of human research subjects</li>
+                    <li><strong>21 CFR 56:</strong> FDA regulations for IRB oversight</li>
+                    <li><strong>21 CFR 812:</strong> Investigational Device Exemptions (IDE)</li>
+                    <li><strong>HIPAA Privacy Rule:</strong> Standards for protecting health information</li>
+                    <li><strong>ISO 14971:</strong> International standard for risk management in medical devices</li>
+                </ul>
+
+                <h3>Belmont Principles Applied to AI</h3>
+                <ul>
+                    <li><strong>Respect for Persons:</strong> Informed consent about AI use, explainability requirements</li>
+                    <li><strong>Beneficence:</strong> Maximizing benefits and minimizing harms from AI systems</li>
+                    <li><strong>Justice:</strong> Fair distribution of AI benefits and burdens across populations</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="card">
+                <h2>About This Tool</h2>
+                
+                <h3>Development & Validation</h3>
+                <p>The AI HSR Risk Reference Tool was developed through a structured, iterative design process as part of a safety engineering project at the Center for AI Safety (CAIS). The tool has been:</p>
+                <ul>
+                    <li>Validated at 23+ institutions nationally</li>
+                    <li>Shown to improve reviewer confidence by 21%</li>
+                    <li>Demonstrated 60% reduction in revision cycles</li>
+                    <li>Adopted by institutions including University of Washington and Multi-Regional Clinical Trials Center</li>
+                </ul>
+
+                <h3>Methodology</h3>
+                <p>The tool maps risks and safeguards from the MIT AI Risk Library and MIT AI Risk Mitigation Library against:</p>
+                <ul>
+                    <li>ISO 14971 (risk management for medical devices)</li>
+                    <li>45 CFR 46 (Common Rule)</li>
+                    <li>21 CFR Parts 312, 812, and 820 (FDA regulations)</li>
+                    <li>HIPAA Privacy Rule</li>
+                    <li>Belmont Principles and Good Clinical Practice (GCP)</li>
+                </ul>
+
+                <h3>Scope & Limitations</h3>
+                <p><strong>Current Version Includes:</strong></p>
+                <ul>
+                    <li>AI-specific risks under U.S. human subjects regulations (45 CFR 46)</li>
+                    <li>Focus on complex AI systems (predictive models, LLMs, foundation models)</li>
+                    <li>Four core risk domains relevant to HSR</li>
+                </ul>
+
+                <p><strong>Future Versions Will Include:</strong></p>
+                <ul>
+                    <li>International regulations (EU AI Act, GDPR)</li>
+                    <li>ISO standards (42001, 23894, 42005, 24368)</li>
+                    <li>Patient and community perspectives</li>
+                    <li>Integration with IRB electronic platforms</li>
+                </ul>
+
+                <h3>How to Use This Tool</h3>
+                <div class="info-box">
+                    <ol>
+                        <li>Navigate to the <strong>Interactive Tool</strong> section</li>
+                        <li>Select the development phase of the AI system under review</li>
+                        <li>Choose relevant risk domains</li>
+                        <li>Review identified risks, mitigation strategies, and reviewer prompts</li>
+                        <li>Use prompts to guide IRB deliberations</li>
+                        <li>Document findings in your IRB review materials</li>
+                    </ol>
+                </div>
+
+                <h3>Citation</h3>
+                <p>If you use this tool in your work, please cite:</p>
+                <p style="font-style: italic; padding-left: 2rem;">
+                    Eto, T. (2025). AI HSR Risk Reference Tool v2.0: Quick Reference Risk Identification and Mitigation Guide for IRBs Reviewing AI in Human Subjects Research. TechInHSR.
+                </p>
+
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="https://techinhsr.com" target="_blank">TechInHSR.com</a> - Blog and updates</li>
+                    <li><a href="https://github.com/etotamikolab/TechInHSR" target="_blank">GitHub Repository</a> - Access the Excel version</li>
+                    <li><a href="https://ai-hsr-risk-reference.glide.page" target="_blank">Glide App v1.5</a> - Previous web version</li>
+                </ul>
+
+                <h3>Acknowledgements</h3>
+                <p>Special thanks to Professor Josep Curto, PhD, at the Center for AI Safety (CAIS) for invaluable guidance, and to colleagues Mark Lifson, Heather Miller, and the broader IRB community for their feedback and support.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Tamiko Eto, MA CIP | TechInHSR</p>
+            <p style="margin-top: 0.5rem;">
+                <strong>Licensed under:</strong> 
+                <a href="https://www.gnu.org/licenses/agpl-3.0.en.html" target="_blank">AGPL-3.0</a> (code) & 
+                <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> (content)
+                <br>
+                <span style="font-size: 0.875rem; opacity: 0.9;">Free for non-commercial use | Commercial licensing: tamiko@techinhsr.com</span>
+            </p>
+            <p style="margin-top: 0.5rem;">
+                <a href="mailto:tamiko@techinhsr.com">Contact</a> | 
+                <a href="https://techinhsr.com" target="_blank">Website</a> | 
+                <a href="https://github.com/[your-username]/ai-hsr-risk-tool" target="_blank">GitHub</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Risk data structure
+        const risks = [
+            {
+                id: 1,
+                title: "Algorithmic Bias in Training Data",
+                phases: ["phase1", "phase2", "phase3"],
+                domains: ["discrimination"],
+                specificRisk: "equity",
+                description: "AI models trained on biased or non-representative datasets may perpetuate or amplify existing disparities, leading to unfair treatment of certain demographic groups.",
+                mitigations: [
+                    "Conduct comprehensive demographic analysis of training data",
+                    "Implement bias detection algorithms during model development",
+                    "Use diverse, representative datasets that reflect the target population",
+                    "Document data sources and known limitations",
+                    "Perform fairness audits across protected characteristics"
+                ],
+                reviewerPrompts: {
+                    phase1: "Has the investigator documented the demographic composition of training data? Are there known gaps in representation?",
+                    phase2: "What fairness metrics were used to evaluate model performance across subgroups? Are disparities documented?",
+                    phase3: "How will ongoing monitoring detect emerging bias in real-world deployment? What is the plan for addressing identified disparities?"
+                }
+            },
+            {
+                id: 2,
+                title: "Model Opacity and Lack of Explainability",
+                phases: ["phase2", "phase3"],
+                domains: ["hci"],
+                specificRisk: "explainability",
+                description: "Complex AI models (deep learning, ensemble methods) may function as 'black boxes' where the reasoning behind predictions is unclear to researchers, clinicians, and participants.",
+                mitigations: [
+                    "Implement explainable AI (XAI) techniques (SHAP, LIME, attention mechanisms)",
+                    "Provide feature importance rankings for predictions",
+                    "Create user-friendly visualizations of model reasoning",
+                    "Document model limitations in plain language",
+                    "Establish thresholds for when human expert review is required"
+                ],
+                reviewerPrompts: {
+                    phase2: "Can the investigator explain how the model arrives at predictions? What explainability methods are being used?",
+                    phase3: "How will clinicians and participants understand AI recommendations? Is there a process for explaining predictions in individual cases?"
+                }
+            },
+            {
+                id: 3,
+                title: "Misclassification and Clinical Error",
+                phases: ["phase2", "phase3"],
+                domains: ["misinformation"],
+                specificRisk: "misclassification",
+                description: "AI systems may incorrectly categorize diagnoses, risk levels, or treatment recommendations, potentially leading to inappropriate interventions or missed necessary care.",
+                mitigations: [
+                    "Establish clear performance thresholds (sensitivity, specificity, PPV, NPV)",
+                    "Implement confidence scoring for predictions",
+                    "Require human verification for high-stakes decisions",
+                    "Create error detection and reporting mechanisms",
+                    "Define clear protocols for handling uncertain predictions",
+                    "Monitor false positive and false negative rates by subgroup"
+                ],
+                reviewerPrompts: {
+                    phase2: "What are the model's error rates? How do they compare to human performance or current standards?",
+                    phase3: "What safeguards prevent harmful actions based on misclassifications? How are errors caught and corrected?"
+                }
+            },
+            {
+                id: 4,
+                title: "Data Privacy and Re-identification Risk",
+                phases: ["phase1", "phase2", "phase3"],
+                domains: ["privacy"],
+                specificRisk: "data-privacy",
+                description: "Large AI models may enable re-identification of participants through data linkage, model inversion attacks, or membership inference, compromising confidentiality.",
+                mitigations: [
+                    "Apply appropriate de-identification techniques (HIPAA Safe Harbor, Expert Determination)",
+                    "Implement differential privacy in model training",
+                    "Conduct Privacy Impact Assessments (PIAs)",
+                    "Restrict data access through secure computing environments",
+                    "Use federated learning to keep data distributed",
+                    "Implement query restrictions to prevent inference attacks",
+                    "Establish data sharing agreements with clear limitations"
+                ],
+                reviewerPrompts: {
+                    phase1: "What identifiers are present in the training data? How is de-identification verified?",
+                    phase2: "Could the model reveal information about training data individuals? What privacy-preserving techniques are used?",
+                    phase3: "What controls prevent unauthorized access to participant data? How is HIPAA compliance maintained?"
+                }
+            },
+            {
+                id: 5,
+                title: "Inadequate Informed Consent for AI Use",
+                phases: ["phase2", "phase3"],
+                domains: ["hci"],
+                specificRisk: "explainability",
+                description: "Participants may not adequately understand how AI will be used in their care or research participation, limiting truly informed consent.",
+                mitigations: [
+                    "Use plain language to explain AI involvement",
+                    "Describe what data will be used and how",
+                    "Explain limitations and potential errors",
+                    "Clarify human oversight and decision-making authority",
+                    "Provide examples of AI predictions/recommendations",
+                    "Allow opt-out options where appropriate",
+                    "Address future use and data retention"
+                ],
+                reviewerPrompts: {
+                    phase2: "Does the consent form adequately explain AI use in terms participants can understand?",
+                    phase3: "Are participants informed about the role of AI in clinical decisions? Can they opt out of AI-based recommendations?"
+                }
+            },
+            {
+                id: 6,
+                title: "Automation Bias and Over-Reliance",
+                phases: ["phase3"],
+                domains: ["hci"],
+                specificRisk: "misclassification",
+                description: "Clinicians and researchers may over-rely on AI recommendations, failing to apply independent judgment, especially when the AI appears confident.",
+                mitigations: [
+                    "Training programs emphasizing AI as decision support, not replacement",
+                    "Interface design that encourages critical thinking",
+                    "Display confidence intervals and uncertainty metrics",
+                    "Require documentation of clinical reasoning independent of AI",
+                    "Monitor decision patterns for automation bias",
+                    "Establish protocols for overriding AI recommendations"
+                ],
+                reviewerPrompts: {
+                    phase3: "What training will clinicians receive on appropriate AI use? How is independent judgment preserved?"
+                }
+            },
+            {
+                id: 7,
+                title: "Disparate Performance Across Subgroups",
+                phases: ["phase2", "phase3"],
+                domains: ["discrimination"],
+                specificRisk: "equity",
+                description: "AI models may perform significantly better for some demographic groups than others, exacerbating health disparities.",
+                mitigations: [
+                    "Conduct stratified performance analysis by race, ethnicity, sex, age, etc.",
+                    "Establish minimum performance thresholds for all subgroups",
+                    "Use fairness-aware machine learning techniques",
+                    "Oversample underrepresented groups in training data",
+                    "Implement continuous monitoring of subgroup performance",
+                    "Create protocols for addressing identified disparities"
+                ],
+                reviewerPrompts: {
+                    phase2: "Has the model been validated across demographic subgroups? What are the performance differences?",
+                    phase3: "How will disparate performance be monitored and addressed in real-world use?"
+                }
+            },
+            {
+                id: 8,
+                title: "AI Hallucinations and Fabricated Information",
+                phases: ["phase2", "phase3"],
+                domains: ["misinformation"],
+                specificRisk: "misclassification",
+                description: "Generative AI systems (especially LLMs) may produce plausible but false information, including fabricated references, diagnoses, or recommendations.",
+                mitigations: [
+                    "Implement fact-checking and verification systems",
+                    "Ground outputs in verified data sources",
+                    "Display confidence scores and sources",
+                    "Require human verification of critical information",
+                    "Create feedback mechanisms for identifying errors",
+                    "Use retrieval-augmented generation (RAG) architectures",
+                    "Establish clear disclaimers about AI limitations"
+                ],
+                reviewerPrompts: {
+                    phase2: "How are AI hallucinations detected and prevented? What verification processes are in place?",
+                    phase3: "What safeguards prevent clinicians from acting on fabricated information?"
+                }
+            },
+            {
+                id: 9,
+                title: "Inadequate Model Validation",
+                phases: ["phase2"],
+                domains: ["misinformation"],
+                specificRisk: "misclassification",
+                description: "AI models deployed without rigorous validation may perform poorly in real-world settings, leading to harmful errors.",
+                mitigations: [
+                    "Conduct internal and external validation studies",
+                    "Test on diverse, representative populations",
+                    "Compare performance to established standards or human experts",
+                    "Assess calibration (predicted vs. actual risk)",
+                    "Evaluate performance across relevant clinical scenarios",
+                    "Document validation results transparently"
+                ],
+                reviewerPrompts: {
+                    phase2: "What validation studies have been conducted? Were they internal or external? How does performance compare to benchmarks?"
+                }
+            },
+            {
+                id: 10,
+                title: "Data Security and Breach Risk",
+                phases: ["phase1", "phase2", "phase3"],
+                domains: ["privacy"],
+                specificRisk: "data-privacy",
+                description: "Large datasets required for AI development create expanded attack surfaces for data breaches, unauthorized access, or cyberattacks.",
+                mitigations: [
+                    "Implement robust encryption (at rest and in transit)",
+                    "Use multi-factor authentication and access controls",
+                    "Conduct regular security audits and penetration testing",
+                    "Establish incident response plans",
+                    "Limit data access to minimum necessary",
+                    "Use secure computing environments (e.g., trusted research environments)",
+                    "Comply with relevant security standards (NIST, HITRUST)"
+                ],
+                reviewerPrompts: {
+                    phase1: "What security measures protect the training data? Who has access?",
+                    phase2: "How is the model secured against unauthorized access or tampering?",
+                    phase3: "What is the plan for responding to a data breach?"
+                }
+            },
+            {
+                id: 11,
+                title: "Secondary Use and Data Drift",
+                phases: ["phase1", "phase3"],
+                domains: ["privacy"],
+                specificRisk: "data-privacy",
+                description: "Data collected for one purpose may be used to train future AI models, and model performance may degrade as real-world data distributions change over time.",
+                mitigations: [
+                    "Explicitly address secondary use in consent forms",
+                    "Establish data governance policies for future AI development",
+                    "Implement continuous monitoring for data drift",
+                    "Re-validate models periodically",
+                    "Create triggers for model retraining or retirement",
+                    "Document all uses of participant data"
+                ],
+                reviewerPrompts: {
+                    phase1: "Does the consent address potential future uses of data for AI development?",
+                    phase3: "How will model performance be monitored over time? When will revalidation occur?"
+                }
+            },
+            {
+                id: 12,
+                title: "Vulnerable Population Considerations",
+                phases: ["phase1", "phase2", "phase3"],
+                domains: ["discrimination"],
+                specificRisk: "equity",
+                description: "AI systems may pose heightened risks to vulnerable populations (children, prisoners, cognitive impairment) who may not fully understand AI involvement or whose data requires additional protection.",
+                mitigations: [
+                    "Conduct additional safeguards for vulnerable populations",
+                    "Simplify consent processes and explanations",
+                    "Involve legally authorized representatives appropriately",
+                    "Assess capacity for understanding AI involvement",
+                    "Implement enhanced privacy protections",
+                    "Consider whether AI benefits justify risks for vulnerable groups"
+                ],
+                reviewerPrompts: {
+                    phase1: "Does the study involve vulnerable populations? Are additional protections planned?",
+                    phase2: "How is consent modified for participants with limited understanding?",
+                    phase3: "What safeguards address heightened risks to vulnerable participants?"
+                }
+            }
+        ];
+
+        // Navigation function
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Filter risks based on selections
+        function filterRisks() {
+            const phase = document.getElementById('phaseFilter').value;
+            const domain = document.getElementById('domainFilter').value;
+            const risk = document.getElementById('riskFilter').value;
+
+            const filtered = risks.filter(r => {
+                const phaseMatch = phase === 'all' || r.phases.includes(phase);
+                const domainMatch = domain === 'all' || r.domains.includes(domain);
+                const riskMatch = risk === 'all' || r.specificRisk === risk;
+                return phaseMatch && domainMatch && riskMatch;
+            });
+
+            displayRisks(filtered);
+        }
+
+        // Display filtered risks
+        function displayRisks(risksToDisplay) {
+            const container = document.getElementById('risksContainer');
+            
+            if (risksToDisplay.length === 0) {
+                container.innerHTML = '<div class="no-results"><h3>No risks match your filters</h3><p>Try adjusting your selection criteria</p></div>';
+                return;
+            }
+
+            container.innerHTML = risksToDisplay.map(risk => `
+                <div class="risk-card">
+                    <div class="risk-title">${risk.title}</div>
+                    <div class="risk-meta">
+                        ${risk.phases.map(p => {
+                            const phaseNames = {
+                                phase1: 'Phase 1',
+                                phase2: 'Phase 2',
+                                phase3: 'Phase 3'
+                            };
+                            return `<span class="badge badge-${p}">${phaseNames[p]}</span>`;
+                        }).join('')}
+                        ${risk.domains.map(d => {
+                            const domainNames = {
+                                discrimination: 'Discrimination',
+                                privacy: 'Privacy',
+                                misinformation: 'Misinformation',
+                                hci: 'HCI'
+                            };
+                            return `<span class="badge badge-domain">${domainNames[d]}</span>`;
+                        }).join('')}
+                    </div>
+                    <div class="risk-description">${risk.description}</div>
+                    
+                    <div class="mitigation-section">
+                        <div class="section-title">🛡️ Mitigation Strategies</div>
+                        <ul>
+                            ${risk.mitigations.map(m => `<li>${m}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="reviewer-section">
+                        <div class="section-title">✓ Reviewer Prompts</div>
+                        ${Object.entries(risk.reviewerPrompts).map(([phase, prompt]) => {
+                            const phaseNames = {
+                                phase1: 'Phase 1',
+                                phase2: 'Phase 2',
+                                phase3: 'Phase 3'
+                            };
+                            return `<p><strong>${phaseNames[phase]}:</strong> ${prompt}</p>`;
+                        }).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize with all risks displayed
+        document.addEventListener('DOMContentLoaded', function() {
+            displayRisks(risks);
+        });
+    </script>
+</body>
+</html>
