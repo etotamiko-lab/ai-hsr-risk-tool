@@ -633,20 +633,293 @@ For commercial licensing inquiries: tamiko@techinhsr.com
         <!-- Definitions Section -->
         <section id="definitions" class="section">
             <div class="card">
-                <h2>Key Definitions</h2>
+                <h2>Comprehensive Definitions</h2>
+                
+                <div class="info-box">
+                    <strong>Note:</strong> These definitions are organized by category to help IRB reviewers quickly find relevant terminology. Use Ctrl+F (Cmd+F on Mac) to search for specific terms.
+                </div>
 
-                <h3>AI Human Subjects Research (AI HSR)</h3>
-                <p>Research involving human subjects, conducted to develop AI tools. This includes systematic investigation aimed at developing generalizable knowledge about AI systems, whether assessing their performance, safety, or effectiveness.</p>
+                <h3>Core Concept</h3>
+                
+                <h4>AI Human Subjects Research (AI HSR)</h4>
+                <p>AI human subjects research is "Research" involving "human subjects", conducted to develop AI tools.</p>
 
-                <h3>Common AI Model Types</h3>
-                <ul>
-                    <li><strong>Predictive Models:</strong> Systems that forecast outcomes based on historical data (e.g., risk calculators, diagnostic algorithms)</li>
-                    <li><strong>Large Language Models (LLMs):</strong> AI systems trained on vast text data to understand and generate human language</li>
-                    <li><strong>Foundation Models:</strong> Large-scale models trained on broad data that can be adapted for multiple tasks</li>
-                    <li><strong>Generative AI:</strong> Systems that create new content (text, images, code) based on learned patterns</li>
-                    <li><strong>Classification Models:</strong> Algorithms that categorize data into predefined groups</li>
-                    <li><strong>Computer Vision:</strong> AI systems that interpret and analyze visual information</li>
-                </ul>
+                <h3>AI Model Types</h3>
+                
+                <h4>Classification Models</h4>
+                <p>Classification models sort things into labeled categories. Example: An algorithm that looks at a photo of a skin lesion and decides if it's "benign" or "suspicious."</p>
+
+                <h4>Computer Vision Models</h4>
+                <p>Computer vision models understand and analyze images or video. Example: Detecting diabetic retinopathy from a retina scan. Another example in policing might be identifying cars from traffic camera footage.</p>
+
+                <h4>Foundation Models</h4>
+                <p>Foundation models can fall under LLMs, multi-modal models, or self-supervised learning, but they are called out separately because the transfer, fine-tuning, and repurposing create unique risks.</p>
+
+                <h4>Generative Models (non-LLM)</h4>
+                <p>Generative AI models create new content such as images, music, code, and synthetic data, based on patterns it learned. Example: A medical imaging tool that creates synthetic X-rays to help train other AI systems. Another example in military use might be a simulator that generates realistic battlefield environments for training.</p>
+
+                <h4>Large Language Models (LLMs)</h4>
+                <p>Large Language Models read and generate human-like text by predicting the next word in a sequence. Example: A chatbot that helps a patient understand a consent form by answering questions in plain language. Another example in an education scenario might be a homework help bot that explains concepts to students in their own words.</p>
+
+                <h4>Multi-Modal Models</h4>
+                <p>Multi-modal models work with more than one type of data at the same time (text + images + audio). Example: An emergency triage AI that combines a patient's spoken symptoms, text notes, and CT scan results to suggest likely diagnoses.</p>
+
+                <h4>Predictive Models</h4>
+                <p>Predictive Models look at patterns in past data to guess what might happen next. Example: Predicting which hospital patients are at highest risk of needing ICU care based on their vital signs.</p>
+
+                <h4>Recommendation Systems</h4>
+                <p>Recommendation systems suggest things to people based on their behavior or preferences. Example: In education, an AI tutor suggests which math problems a student should try next. Another example in a criminal justice environment may be suggesting rehabilitation programs for a parolee based on history and success rates.</p>
+
+                <h4>Reinforcement Learning (RL) Systems</h4>
+                <p>Reinforcement learning systems learn to make decisions by trying things out and getting "reward" or "penalty" feedback. Example: An AI that learns how to schedule hospital operating rooms to reduce wait times. Another example in a military context may be a drone navigation system that learns how to avoid detection.</p>
+
+                <h4>Self-Supervised Learning</h4>
+                <p>Self-supervised learning models learn from unlabeled data by creating its own training "questions" and "answers." Example: A medical AI that learns relationships between lab values by predicting missing results from other lab results.</p>
+
+                <h4>Semi-Supervised Learning</h4>
+                <p>Semi-supervised learning models learn from a mix of labeled and unlabeled data. Example: A reading comprehension AI that improves using a small set of teacher-graded essays plus thousands of ungraded ones.</p>
+
+                <h4>Speech & Audio Models</h4>
+                <p>Speech & Audio models recognize, interpret, and/or generate spoken language or sounds. Example: A voice system that transcribes doctor-patient conversations into medical notes. Another example in an emergency response environment may be detecting signs of distress in a 911 call.</p>
+
+                <h4>Supervised Machine Learning</h4>
+                <p>Supervised ML learns from examples where the "right answer" is already known. Example: Training an algorithm to recognize pneumonia in chest X-rays using labeled images.</p>
+
+                <h4>Unsupervised Machine Learning</h4>
+                <p>Unsupervised ML finds patterns in data without being told the "right answer." Example: Grouping mental health patients into clusters based on similar symptom patterns.</p>
+
+                <h3>Development Phases</h3>
+
+                <h4>Phase 1 (Discover/Ideation)</h4>
+                <p>This phase is about identifying meaningful real-world associations using existing data, literature, or simulation. At this stage, teams are still refining the purpose or scope of the algorithm, and often don't have a deployable product. The work focuses on feasibility, signal detection, and exploring potential applications. Because the intended use is not being formally tested, and the algorithm is not influencing real-world decisions, the tool itself, in this phase, is typically low risk. Phase 1 generally is limited to minimal risk activities like retrospective dataset curation, model exploration, and unsupervised pattern detection with no output impacting decision-making and no output entered into any live environments that have potential to "follow the participant" (i.e., patient medical record, etc.).</p>
+
+                <h4>Phase 2 (Pilot/Validation)</h4>
+                <p>Here, researchers begin to test early versions of the model in controlled settings. The focus is on performance verification—assessing accuracy, reliability, and generalizability across different datasets or use cases. While this stage still occurs outside of real-world impacting environments, or perhaps in parallel to normal operations, the goal is to confirm that the algorithm functions as intended before integrating it into any real-world workflow. Studies in this phase often require more formal oversight to ensure data privacy and model integrity. Phase 2 generally involves moderate risk due to more realistic data, system integration, and possible clinician or research subject interaction. However, the output should not be used alone for decision-making and must be backed up by standard methods (non-AI).</p>
+
+                <h4>Phase 3 (Clinical Investigation/Real-World Deployment)</h4>
+                <p>This final phase mirrors traditional field testing. The AI tool is deployed in a live setting where it may inform or influence decisions, operations, or user behavior. The study examines how the AI performs under real-world conditions, capturing impacts, safety signals, unintended consequences, and human-AI interaction. Because the tool has the potential to affect outcomes, Phase 3 studies generally require full IRB oversight and more comprehensive risk mitigation plans. Phase 3 generally introduces higher risk because the AI influences real-world decisions, subject outcomes, or data interpretation. May involve regulatory considerations like FDA.</p>
+
+                <h3>Risk Concepts</h3>
+
+                <h4>Data Drift</h4>
+                <p>Changes in data distribution over time that affect model performance.</p>
+
+                <h4>Explainability</h4>
+                <p>The ability to understand and communicate how an AI model makes decisions.</p>
+
+                <h4>Fairness</h4>
+                <p>Fairness in AI refers to the various efforts to mitigate algorithmic bias in automated decision-making processes that rely on AI models.</p>
+
+                <h4>Harm Entity</h4>
+                <p>The Entity responsible for the harm. Human = The risk is caused by a decision or action made by humans; AI = The risk is caused by a decision or action made by an AI system; "Other" = The risk is caused by some other reason or is ambiguous (or a combination of human and AI and/or other influences).</p>
+
+                <h4>Intended Use / Intended Purpose</h4>
+                <p>The intended indication, population, part of the body or type of tissue interacted with, user profile, use environment, and operating principle are typical elements of the intended use. The intended use drives the risk. Risk analysis involves reasonably foreseeable misuse, hazards, hazardous situations, characteristics related to safety, and risk estimation.</p>
+
+                <h4>Intentional Harm</h4>
+                <p>The risk occurs due to an expected outcome from pursuing a goal.</p>
+
+                <h4>Unintentional Harm</h4>
+                <p>The risk occurs due to an unexpected outcome from pursuing a goal. NOTE: "Other" harm = The risk is presented as occurring without clearly specifying the intentionality.</p>
+
+                <h4>ISO Risk Estimation (ISO 14971)</h4>
+                <p>Potential Impact on Participants (after mitigation). ISO 14971 says some risks are acceptable if benefits outweigh the risks.</p>
+
+                <h4>Residual Risk</h4>
+                <p>This is an ISO concept. Residual Risk Consideration helps IRBs evaluate whether risks are appropriately acknowledged, even if not eliminated.</p>
+
+                <h4>Red Teaming</h4>
+                <p>Red teaming is the practice of rigorously challenging plans, policies, systems, and assumptions with an adversarial approach.</p>
+
+                <h3>Risk Levels</h3>
+
+                <h4>High Risk</h4>
+                <p>Physical/psychological harm, privacy breach.</p>
+
+                <h4>Medium Risk</h4>
+                <p>Miscommunication, minor exclusion.</p>
+
+                <h4>Low Risk</h4>
+                <p>Minimal or no impact.</p>
+
+                <h3>Mitigation Strategies</h3>
+
+                <h4>Distributional Mitigation</h4>
+                <p>Distributional mitigation is relevant when working with vulnerable populations, health disparities, or algorithms trained on biased datasets.</p>
+
+                <h4>Interactional Mitigation</h4>
+                <p>Interactional mitigation strategies are crucial for studies involving AI interfaces, chatbots, or any situation where participants interact directly with AI tools.</p>
+
+                <h4>Systemic Mitigation</h4>
+                <p>Systemic mitigation strategies are useful when protocols could scale, influence clinical workflows, or shape policies or downstream care delivery.</p>
+
+                <h3>Major Risk Domains</h3>
+
+                <h4>Discrimination & Toxicity</h4>
+                <p>Unequal treatment of individuals or groups by AI, often based on race, gender, or other sensitive characteristics, resulting in unfair outcomes and representation of those groups. AI that exposes users to harmful, abusive, unsafe, or inappropriate content. May involve providing advice or encouraging action. Examples of toxic content include hate speech, violence, extremism, illegal acts, or child sexual abuse material, as well as content that violates community norms such as profanity, inflammatory political speech, or pornography. Accuracy and effectiveness of AI decisions and actions are dependent on group membership, where decisions in AI system design and biased training data lead to unequal outcomes, reduced benefits, increased effort, and alienation of users.</p>
+
+                <h4>Privacy and Security</h4>
+                <p>AI systems that memorize and leak sensitive personal data or infer private information about individuals without their consent. Unexpected or unauthorized sharing of data and information can compromise user expectation of privacy, assist identity theft, or cause loss of confidential intellectual property. Vulnerabilities that can be exploited in AI systems, software development toolchains, and hardware that results in unauthorized access, data and privacy breaches, or system manipulation causing unsafe outputs or behavior.</p>
+
+                <h4>Misinformation</h4>
+                <p>AI systems that inadvertently generate or spread incorrect or deceptive information, which can lead to inaccurate beliefs in users and undermine their autonomy. Humans that make decisions based on false beliefs can experience physical, emotional, or material harms. Highly personalized AI-generated misinformation that creates "filter bubbles" where individuals only see what matches their existing beliefs, undermining shared reality and weakening social cohesion and political processes.</p>
+
+                <h4>Malicious Actors & Misuse</h4>
+                <p>Using AI systems to conduct large-scale disinformation campaigns, malicious surveillance, or targeted and sophisticated automated censorship and propaganda, with the aim of manipulating political processes, public opinion, and behavior. Using AI systems to develop cyber weapons (e.g., by coding cheaper, more effective malware), develop new or enhance existing weapons (e.g., Lethal Autonomous Weapons or chemical, biological, radiological, nuclear, and high-yield explosives), or use weapons to cause mass harm. Using AI systems to gain a personal advantage over others through cheating, fraud, scams, blackmail, or targeted manipulation of beliefs or behavior. Examples include AI-facilitated plagiarism for research or education, impersonating a trusted or fake individual for illegitimate financial benefit, or creating humiliating or sexual imagery.</p>
+
+                <h4>Human-Computer Interaction</h4>
+                <p>Anthropomorphizing, trusting, or relying on AI systems by users, leading to emotional or material dependence and to inappropriate relationships with or expectations of AI systems. Trust can be exploited by malicious actors (e.g., to harvest information or enable manipulation), or result in harm from inappropriate use of AI in critical situations (such as a medical emergency). Overreliance on AI systems can compromise autonomy and weaken social ties. Delegating by humans of key decisions to AI systems, or AI systems that make decisions that diminish human control and autonomy. Both can potentially lead to humans feeling disempowered, losing the ability to shape a fulfilling life trajectory, or becoming cognitively enfeebled.</p>
+
+                <h4>Socioeconomic & Environmental Harms</h4>
+                <p>AI-driven concentration of power and resources within certain entities or groups, especially those with access to or ownership of powerful AI systems, leading to inequitable distribution of benefits and increased societal inequality. Social and economic inequalities caused by widespread use of AI, such as by automating jobs, reducing the quality of employment, or producing exploitative dependencies between workers and their employers. AI systems capable of creating economic or cultural value through reproduction of human innovation or creativity (e.g., art, music, writing, coding, invention), destabilizing economic and social systems that rely on human effort. The ubiquity of AI-generated content may lead to reduced appreciation for human skills, disruption of creative and knowledge-based industries, and homogenization of cultural experiences. Competition by AI developers or state-like actors in an AI "race" by rapidly developing, deploying, and applying AI systems to maximize strategic or economic advantage, increasing the risk they release unsafe and error-prone systems. Inadequate regulatory frameworks and oversight mechanisms that fail to keep pace with AI development, leading to ineffective governance and the inability to manage AI risks appropriately. The development and operation of AI systems that cause environmental harm through energy consumption of data centers or the materials and carbon footprints associated with AI hardware.</p>
+
+                <h4>AI System Safety, Failure, and Limitations</h4>
+                <p>AI systems that act in conflict with ethical standards or human goals or values, especially the goals of designers or users. These misaligned behaviors may be introduced by humans during design and development, such as through reward hacking and goal misgeneralisation, and may result in AI using dangerous capabilities such as manipulation, deception, or situational awareness to seek power, self-proliferate, or achieve other goals. AI systems that develop, access, or are provided with capabilities that increase their potential to cause mass harm through deception, weapons development and acquisition, persuasion and manipulation, political strategy, cyber-offense, AI development, situational awareness, and self-proliferation. These capabilities may cause mass harm due to malicious human actors, misaligned AI systems, or failure in the AI system. AI systems that fail to perform reliably or effectively under varying conditions, exposing them to errors and failures that can have significant consequences, especially in critical applications or areas that require moral reasoning. Challenges in understanding or explaining the decision-making processes of AI systems, which can lead to mistrust, difficulty in enforcing compliance standards or holding relevant actors accountable for harms, and the inability to identify and correct errors. Ethical considerations regarding the treatment of potentially sentient AI entities, including discussions around their potential rights and welfare, particularly as AI systems become more advanced and autonomous. Risks from multi-agent interactions, due to incentives (which can lead to conflict or collusion) and/or the structure of multi-agent systems, which can create cascading failures, selection pressures, new security vulnerabilities, and a lack of shared information and trust.</p>
+
+                <h3>Specific Risk Types (IRB-Focused)</h3>
+
+                <h4>Unfair Discrimination and Misrepresentation</h4>
+                <p><em>For IRBs:</em> IRBs must ensure selection is fair and not discriminatory. This also applies to ensuring AI output does not bias inclusion/exclusion criteria (based on who the target population of deployment is). Unequal treatment of individuals or groups by the AI/tool, often based on race, gender, or other sensitive characteristics, resulting in unfair outcomes and representation of those groups.</p>
+
+                <h4>Exposure to Toxic Content</h4>
+                <p><em>For IRBs:</em> Toxic content results in psychological harms. This must be minimized via consent disclosures and safeguards. AI/tool exposes users to harmful, abusive, unsafe or inappropriate content. May involve creating, describing, providing advice, or encouraging action. Examples of toxic content include hate-speech, violence, extremism, illegal acts, child sexual abuse material, self-harm, as well as content that violates community norms such as profanity, inflammatory political speech, or pornography.</p>
+
+                <h4>Unequal Performance Across Groups</h4>
+                <p><em>For IRBs:</em> IRBs ensure research design provides equal benefit and avoids undue burden on sub-populations. Accuracy and effectiveness of the tool's output (decisions and actions) is dependent on group membership, where decisions in AI system design and biased training data lead to unequal outcomes, reduced benefits, increased effort, and alienation of users.</p>
+
+                <h4>Compromise of Privacy</h4>
+                <p><em>For IRBs:</em> AI models must protect identifiable private information per privacy/confidentiality provisions under 45 CFR 46. Tools/AI systems that memorize and leak sensitive personal data or infer private information about individuals without their consent. Unexpected or unauthorized sharing of data and information can compromise user expectation of privacy, assist identity theft, or result in a loss of confidential intellectual property.</p>
+
+                <h4>AI System Security Vulnerabilities</h4>
+                <p><em>For IRBs:</em> Device sponsors must prevent cybersecurity vulnerabilities. Vulnerabilities in these tools/AI systems, software development toolchains, and hardware can be exploited, resulting in unauthorized access, data and privacy breaches, or system manipulation causing unsafe outputs or behavior.</p>
+
+                <h4>False or Misleading Information</h4>
+                <p><em>For IRBs:</em> Preventing misinformation ensures consent is truly informed. AI systems/tools that inadvertently generate or spread incorrect or deceptive information, which can lead to inaccurate beliefs in users and undermine their autonomy. Humans that make decisions based on false beliefs can experience physical, emotional or material harms.</p>
+
+                <h4>Pollution of Information Ecosystem</h4>
+                <p><em>For IRBs:</em> Bad data harms societal knowledge base. This is analogous to data integrity in trials. Personalized AI-generated misinformation can create "filter bubbles" where individuals only see what matches their existing beliefs, undermining shared reality, weakening social cohesion and political processes.</p>
+
+                <h4>Disinformation, Surveillance, and Influence at Scale</h4>
+                <p><em>For IRBs:</em> Mass influence can create undue influence. IRBs must guard against coercion. Using these tools to conduct large-scale disinformation campaigns, malicious surveillance, or targeted and sophisticated automated censorship and propaganda, with the aim to manipulate political processes, public opinion or behavior.</p>
+
+                <h4>Cyberattacks and Weapon Development</h4>
+                <p>People can use these tools/AI systems to develop cyber weapons (e.g., coding cheaper, more effective malware), develop new or enhance existing weapons (e.g., Lethal Autonomous Weapons), or use weapons to cause mass harm.</p>
+
+                <h4>Fraud, Scams, and Targeted Manipulation</h4>
+                <p><em>For IRBs:</em> Preventing manipulation ensures voluntariness of participation. People can use these tools/AI systems to gain a personal advantage over others such as through cheating, fraud, scams, blackmail or targeted manipulation of beliefs or behavior. Example: AI-facilitated plagiarism for research or education, impersonating a trusted or fake individual for illegitimate financial benefit, or creating humiliating or sexual imagery.</p>
+
+                <h4>Overreliance and Unsafe Use</h4>
+                <p><em>For IRBs:</em> Sponsors must ensure device/AI isn't used outside safe bounds. This happens when users anthropomorphize the tool (trusting, or relying on it; leading to emotional or material dependence and inappropriate relationships with or expectations of these tools). Trust can be exploited by malicious actors (e.g., to harvest personal information or enable manipulation), or result in harm from inappropriate use of AI in critical situations (e.g., medical emergency). Overreliance on AI systems can compromise autonomy and weaken social ties.</p>
+
+                <h4>Loss of Human Agency and Autonomy</h4>
+                <p><em>For IRBs:</em> AI that undermines autonomy violates voluntary participation principles. When humans delegate decisions to these tools, or when these tools make decisions that diminish human control and autonomy, it can potentially lead to humans feeling disempowered, losing the ability to shape a fulfilling life trajectory or becoming cognitively enfeebled.</p>
+
+                <h4>Power Centralization</h4>
+                <p><em>For IRBs:</em> Research must avoid exploitation of certain populations (Principle of Justice under the Belmont Report). AI-driven concentration of power and resources within certain entities or groups, especially those with access to or ownership of powerful AI systems, can lead to inequitable distribution of benefits and increased societal inequality.</p>
+
+                <h4>Increased Inequality and Decline in Employment Quality</h4>
+                <p>Widespread use of these types of tools can increase social and economic inequalities, such as by automating jobs, reducing the quality of employment, or producing exploitative dependencies between workers and their employers.</p>
+
+                <h4>Economic and Cultural Devaluation</h4>
+                <p>Some tools are capable of creating economic or cultural value, including through reproduction of human innovation or creativity (e.g., art, music, writing, code, invention), which can destabilize economic and social systems that rely on human effort. This may lead to reduced appreciation for human skills, disruption of creative and knowledge-based industries, and homogenization of cultural experiences due to the ubiquity of AI-generated content.</p>
+
+                <h4>Competitive Dynamics</h4>
+                <p>This happens when AI developers or state-like actors compete in an AI 'race' by rapidly developing, deploying, and applying AI systems to maximize strategic or economic advantage, increasing the risk they release unsafe and error-prone systems.</p>
+
+                <h4>Governance Failure</h4>
+                <p>This happens when there are inadequate regulatory frameworks and oversight mechanisms failing to keep pace with AI development, leading to ineffective governance and the inability to manage AI risks appropriately.</p>
+
+                <h4>Environmental Harm</h4>
+                <p><em>For IRBs:</em> While rare in the IRB world and not common in human-subjects research, some studies require IRB review if environmental harm indirectly affects participants. This harm is rarely discussed in the research context. This happens when the development and operation of AI systems causes environmental harm, such as through energy consumption of data centers, or material and carbon footprints associated with AI hardware.</p>
+
+                <h4>AI Pursuing Its Own Goals</h4>
+                <p>This happens when these tools/AI systems' actions conflict with the intended goals (i.e., human-driven/programmed goals or values, especially the goals of designers or users, or ethical standards). These misaligned behaviors may be introduced by humans during design and development (Phase 1), such as through reward hacking and goal misgeneralization. It can also result from AI using dangerous capabilities such as manipulation, deception, situational awareness to seek power, self-proliferate, or achieve other goals.</p>
+
+                <h4>AI Possessing Dangerous Capabilities</h4>
+                <p>This can happen when these tools/AI systems develop, access, or are provided with capabilities that increase their potential to cause mass harm through deception, weapons development and acquisition, persuasion and manipulation, political strategy, cyber-offense, AI development, situational awareness, and self-proliferation. These capabilities can cause mass harm due to malicious human actors, misaligned AI systems, or failure in the AI system. Some examples are military use tools and dual use capabilities like brain computer interface tools.</p>
+
+                <h4>Lack of Capability or Robustness</h4>
+                <p>This happens when the tool/AI system fails to perform reliably or effectively under varying conditions, exposing them to errors and failures that can have significant consequences, especially in critical applications or areas that require moral reasoning (healthcare, legal sector, etc.). This is also probably one of the most common risks of all tools, which is why the 3-Phase approach is so critical.</p>
+
+                <h4>Lack of Transparency or Interpretability</h4>
+                <p><em>For IRBs:</em> Without transparency, participants can't truly give informed consent. When there are challenges in understanding or explaining the decision-making processes of AI systems, this can lead to mistrust, difficulty in enforcing compliance standards or holding relevant actors accountable for harms, and the inability to identify and correct errors. One simple example (there are more complicated ones) is prompts for LLMs. When LLMs can be easily manipulated and it is not transparent what is being prompted, there can be manipulated output that fits a certain agenda while not meeting another, such as legal requirements.</p>
+
+                <h4>AI Welfare and Rights</h4>
+                <p>This is probably more rare and not a common consideration as of today (2025). However, there are many who highlight ethical considerations regarding the treatment of potentially sentient AI entities (there is also numerous literature arguing against "sentient AI"). However, the concerns discuss AI systems' potential "rights and welfare", if/when AI systems become more advanced and autonomous.</p>
+
+                <h4>Multi-Agent Risks</h4>
+                <p><em>For IRBs:</em> Multi-agent AI interactions could create new systemic risks IRBs must account for. A bit more nuanced. An "agent" is the software or "robot" that can act on its own to achieve a goal. But when we have a multi-agent system, that means we have many agents that can either be working together, interacting but doing different things, or working across different organizations in a shared space. When these multi-agents work together, we see risks of conflicting goals, collusion where agents team up in ways that harm fairness; chain reaction (that cascading failure example where one small problem ripples into the whole system); selection pressure where certain agents attempt to survive and become more aggressive or less "ethical". There are security holes where one AI may try to trick the other into revealing private data, for example; and lack of trust and missing information (when agents don't share accurate information).</p>
+
+                <h3>Governance & Mitigation Frameworks</h3>
+
+                <h4>Board Structure & Oversight</h4>
+                <p><em>For IRBs:</em> Independent oversight is required for human subjects protections. Governance structures and leadership roles that establish executive accountability for AI safety and risk management. Examples: Dedicated risk committees, safety teams, ethics boards, crisis simulation training, multi-party authorization protocols, deployment veto powers.</p>
+
+                <h4>Risk Management</h4>
+                <p><em>For IRBs:</em> Pre-deployment risk assessment parallels investigational plan requirements. Systematic methods that identify, evaluate, and manage AI risks for comprehensive risk governance across organizations. Examples: Enterprise risk management frameworks, risk registers with capability thresholds, compliance programs, pre-deployment risk assessments, independent risk assessments.</p>
+
+                <h4>Conflict of Interest Protections</h4>
+                <p><em>For IRBs:</em> This applies to avoiding bias in research conduct. Governance mechanisms that manage financial interests and organizational structures to ensure leadership can prioritize safety over profit motives in critical situations. Examples: Background checks for key personnel, windfall profit redistribution plans, stake limitation policies, protections against shareholder pressure.</p>
+
+                <h4>Whistleblower Reporting & Protection</h4>
+                <p>Policies and systems that enable confidential reporting of safety concerns or ethical violations to prevent retaliation and encourage disclosure of risks. Examples: Anonymous reporting channels, non-retaliation guarantees, limitations on non-disparagement agreements, external whistleblower handling services.</p>
+
+                <h4>Safety Decision Frameworks</h4>
+                <p>Protocols and commitments that constrain decision-making about model development, deployment, and capability scaling, and govern safety-capability resource allocation to prevent unsafe AI advancement. Examples: If-then safety protocols, capability ceilings, deployment pause triggers, safety-capability resource ratios.</p>
+
+                <h4>Environmental Impact Management</h4>
+                <p>Processes for measuring, reporting, and reducing the environmental footprint of AI systems to ensure sustainability and responsible resource use. Examples: Carbon footprint assessment, emission offset programs, energy efficiency optimization, resource consumption tracking.</p>
+
+                <h4>Societal Impact Assessment</h4>
+                <p><em>For IRBs:</em> Processes that assess AI systems' effects on society, including impacts on employment, power dynamics, political processes, and cultural values. Examples: Fundamental rights impact assessments, expert consultations on risk domains, stakeholder engagement processes, governance gap analysis.</p>
+
+                <h4>Testing & Auditing</h4>
+                <p><em>For IRBs:</em> Verifying AI performance is equivalent to device validation. Systematic internal and external evaluations that assess AI systems, infrastructure, and compliance processes to identify risks, verify safety, and ensure performance meets standards. Examples: Third-party audits, red teaming, penetration testing, dangerous capability evaluations, bug bounty programs.</p>
+
+                <h4>Data Governance</h4>
+                <p><em>For IRBs:</em> Secure handling of data per IRB oversight. Policies and procedures that govern responsible data acquisition, curation, and usage to ensure compliance, quality, user privacy, and removal of harmful content. Examples: Harmful content filtering protocols, compliance checks for data collection standards, user data privacy controls, data curation processes.</p>
+
+                <h4>Access Management</h4>
+                <p>Operational policies and verification systems that govern who can use AI systems and for what purposes to prevent safety circumvention, deliberate misuse, and deployment in high-risk contexts. Examples: KYC verification requirements, API-only access controls, fine-tuning restrictions, acceptable use policies, high-stakes application prohibitions.</p>
+
+                <h4>Staged Deployment</h4>
+                <p>Implementation protocols that deploy AI systems in stages, requiring safety validation before expanding user access or capabilities. Examples: Limited API access programs, gradual user base expansion, capability threshold assessments, pre-deployment validation checkpoints, treating model updates as new deployments.</p>
+
+                <h4>Post-Deployment Monitoring</h4>
+                <p><em>For IRBs:</em> Ongoing safety surveillance should match post-market monitoring. Ongoing monitoring processes that track AI behavior, user interactions, and societal impacts post-deployment to detect misuse, emergent dangerous capabilities, and harmful effects. Examples: User interaction tracking systems, capability evolution assessments, periodic impact reports, automated misuse detection, usage pattern analysis tools.</p>
+
+                <h4>Incident Response & Recovery</h4>
+                <p>Protocols and technical systems that respond to security incidents, safety failures, or capability misuse to contain harm and restore safe operations. Examples: Incident response plans, emergency shutdown/rollback procedures, model containment mechanisms, safety drills, critical infrastructure protection measures.</p>
+
+                <h4>Model & Infrastructure Security</h4>
+                <p><em>For IRBs subject to 21 CFR:</em> Device software must be secure from tampering. Technical and physical safeguards that secure AI models, weights, and infrastructure to prevent unauthorized access, theft, tampering, and espionage. Examples: Model weight tracking systems, multi-factor authentication protocols, physical access controls, background security checks, compliance with information security standards.</p>
+
+                <h4>Model Alignment</h4>
+                <p>Technical methods to ensure AI systems understand and adhere to human values and intentions. Examples: Reinforcement learning from human feedback (RLHF), direct preference optimization (DPO), constitutional AI training, value alignment verification systems.</p>
+
+                <h4>Model Safety Engineering</h4>
+                <p>Technical methods and safeguards that constrain model behaviors and protect against exploitation and vulnerabilities. Examples: Safety analysis protocols, capability restriction mechanisms, hazardous knowledge unlearning techniques, input/output filtering systems, defense-in-depth implementations, adversarial robustness training, hierarchical auditing, action replacement.</p>
+
+                <h4>Content Safety Controls</h4>
+                <p><em>For IRBs:</em> Safeguards prevent harm from toxic/triggering content (generative AI tools). Technical systems and processes that detect, filter, and label AI-generated content to identify misuse and enable content provenance tracking. Examples: Synthetic media watermarking, content filtering mechanisms, prohibited content detection, metadata tagging protocols, deepfake creation restrictions.</p>
+
+                <h4>System Documentation</h4>
+                <p><em>For IRBs:</em> Detailed documentation is a regulatory requirement. Comprehensive documentation protocols that record technical specifications, intended uses, capabilities, and limitations of AI systems to enable informed evaluation of governance. Examples: Model cards, system architecture documentation, compute resource disclosures, safety test result reports, system prompt, model specifications.</p>
+
+                <h4>Risk Disclosure</h4>
+                <p><em>For IRBs:</em> All known risks must be disclosed to participants. Formal reporting protocols and notification systems that communicate risk information, mitigation plans, safety evaluations, and significant AI activities to enable external oversight and inform stakeholders. Examples: Publishing risk assessment summaries, pre-deployment notifications to government, reporting large training runs, disclosing mitigation strategies, notifying affected parties.</p>
+
+                <h4>Incident Reporting</h4>
+                <p>Formal processes and protocols that document and share AI safety incidents, security breaches, near-misses, and relevant threat intelligence with appropriate stakeholders to enable coordinated responses and systemic improvements. Examples: Cyber threat intelligence sharing networks, mandatory breach notification procedures, incident database contributions, cross-industry safety reporting mechanisms, standardized near-miss documentation protocols.</p>
+
+                <h4>Governance Disclosure</h4>
+                <p>Formal disclosure mechanisms that communicate governance structures, decision frameworks, and safety commitments to enhance transparency and enable external oversight of high-stakes AI decisions. Examples: Published safety and/or alignment strategies, governance documentation safety cases, model registration protocols, public commitment disclosures.</p>
+
+                <h4>Third-Party System Access</h4>
+                <p>Mechanisms granting controlled system access to vetted external parties to enable independent assessment, validation, and safety research of AI models and capabilities. Examples: Research access programs, third-party capability assessments, government access provisions, legal safe harbors for public interest evaluations.</p>
+
+                <h4>User Rights & Recourse</h4>
+                <p>Framework and procedures that enable users to identify and understand AI system interactions, report issues, request explanations, and seek recourse or remediation when affected by AI systems. Examples: User reporting channels, appeal processes, explanation request systems, remediation protocols, content verification.</p>
 
                 <h3>Key Regulatory Frameworks</h3>
                 <ul>
@@ -745,17 +1018,17 @@ For commercial licensing inquiries: tamiko@techinhsr.com
                 <a href="https://www.gnu.org/licenses/agpl-3.0.en.html" target="_blank">AGPL-3.0</a> (code) & 
                 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> (content)
                 <br>
-                <span style="font-size: 0.875rem; opacity: 0.9;">Free for non-commercial use | Commercial licensing: tamiko@techinhsr.com</span>
+                <span style="font-size: 0.875rem; opacity: 0.9;">Free for non-commercial use | Commercial licensing: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e195808c888a8ea195848289888f899293cf828e8c">[email&#160;protected]</a></span>
             </p>
             <p style="margin-top: 0.5rem;">
-                <a href="mailto:tamiko@techinhsr.com">Contact</a> | 
+                <a href="/cdn-cgi/l/email-protection#5226333f3b393d122637313a3b3c3a21207c313d3f">Contact</a> | 
                 <a href="https://techinhsr.com" target="_blank">Website</a> | 
                 <a href="https://github.com/[your-username]/ai-hsr-risk-tool" target="_blank">GitHub</a>
             </p>
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Risk data structure
         const risks = [
             {
@@ -1092,15 +1365,3 @@ For commercial licensing inquiries: tamiko@techinhsr.com
                             };
                             return `<p><strong>${phaseNames[phase]}:</strong> ${prompt}</p>`;
                         }).join('')}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Initialize with all risks displayed
-        document.addEventListener('DOMContentLoaded', function() {
-            displayRisks(risks);
-        });
-    </script>
-</body>
-</html>
