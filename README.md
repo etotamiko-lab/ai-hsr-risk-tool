@@ -23,7 +23,7 @@ This tool assists Institutional Review Boards (IRBs) and Ethics Committees in id
 ## 🚀 Quick Start
 
 ### Option 1: Use Online (Recommended)
-Visit the live tool: **[https://[your-username].github.io/ai-hsr-risk-tool/](https://[your-username].github.io/ai-hsr-risk-tool/)**
+Visit the live tool: **[https://etotamiko.github.io/ai-hsr-risk-tool/]
 
 ### Option 2: Download and Use Locally
 1. Download `index.html` from this repository
@@ -89,22 +89,6 @@ Visit the live tool: **[https://[your-username].github.io/ai-hsr-risk-tool/](htt
 
 ---
 
-## 📊 Validation Results
-
-Beta testing with 23+ institutions demonstrated:
-- **21% improvement** in reviewer confidence
-- **60% reduction** in revision cycles
-- **More consistent reviews** across different reviewers
-- Enhanced ability to identify previously overlooked risks
-
-Institutions using this framework include:
-- University of Washington
-- Multi-Regional Clinical Trials Center
-- Major academic medical centers nationwide
-- Research universities across the U.S.
-
----
-
 ## 🔬 Methodology
 
 The tool maps risks and safeguards from authoritative sources against U.S. regulatory frameworks:
@@ -149,7 +133,7 @@ This tool is **FREE for:**
 See [LICENSE.md](LICENSE.md) for complete terms.
 
 ### Commercial Use
-For commercial licensing inquiries, contact: **tamiko@techinhsr.com**
+For commercial licensing inquiries, contact: techinhsr.com
 
 ---
 
@@ -165,7 +149,7 @@ If you use this tool in your work, please cite:
            AI in Human Subjects Research},
   year = {2025},
   publisher = {TechInHSR},
-  url = {https://github.com/[your-username]/ai-hsr-risk-tool},
+  url = {https://github.com/etotamiko/ai-hsr-risk-tool},
   note = {Licensed under AGPL-3.0 and CC BY-NC-SA 4.0}
 }
 ```
@@ -254,9 +238,9 @@ We welcome contributions from the IRB and AI ethics community!
 **Blog:** [https://techinhsr.com/blog](https://techinhsr.com/blog)
 
 ### Get Help:
-- 📧 Email: tamiko@techinhsr.com
-- 🐛 Report Issues: [GitHub Issues](https://github.com/[your-username]/ai-hsr-risk-tool/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/[your-username]/ai-hsr-risk-tool/discussions)
+- 📧 Email: techinhsr.com
+- 🐛 Report Issues: [GitHub Issues](https://github.com/etotamiko/ai-hsr-risk-tool/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/etotamiko/ai-hsr-risk-tool/discussions)
 
 ---
 
@@ -264,7 +248,7 @@ We welcome contributions from the IRB and AI ethics community!
 
 Special thanks to:
 - **Professor Josep Curto, PhD** - Center for AI Safety (CAIS) for invaluable guidance
-- **Mark Lifson, Heather Miller** - Collaborators on the 3-Phase Framework
+- **Mark Lifson** - Collaborators on the 3-Phase Framework
 - **Beta Testing Participants** - 23+ institutions who provided critical feedback
 - **MIT FutureTech** - For the AI Risk Repository and Mitigation Library
 - **IRB Community** - For ongoing support and validation
